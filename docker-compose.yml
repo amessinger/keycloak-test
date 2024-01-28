@@ -1,0 +1,23 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - 8080:8080
+    command: start-dev
+  django:
+    build: django
+    volumes:
+      - ./django/app:/app
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+  rails:
+    build: rails
+    volumes:
+      - ./rails/app:/app
+    ports:
+      - 3000:3000
+    command: bin/rails server --binding 0.0.0.0 --port 3000
